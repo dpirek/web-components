@@ -16,7 +16,10 @@ function contentType(url) {
     gif: 'image/gif',
     woff: 'font/woff',
     map: 'application/octet-stream',
-    wasm: 'application/wasm'
+    wasm: 'application/wasm',
+    json: 'application/json',
+    svg: 'image/svg+xml',
+    ico: 'image/x-icon',
   };
 
   if(contentTypes[ext] === undefined) return contentTypes['html'];
@@ -24,25 +27,22 @@ function contentType(url) {
   return contentTypes[ext];
 }
 
-const server = http.createServer((req, res) => {
+function onServer(req, res) {
   try {
-    let pathname = url.parse(req.url).pathname;
+    let { pathname } = url.parse(req.url);
 
-    if(pathname === '/') pathname = '/index.html' 
-
-    console.log(pathname);
-
-    const fileContent = fs.readFileSync(STATIC_ROOT + pathname);
     res.writeHead(200, {'Content-Type': contentType(pathname)});
 
+    if(pathname === '/') pathname = '/index.html';
+    if(pathname === '/favicon.ico') return res.end();
+
+    const fileContent = fs.readFileSync(STATIC_ROOT + pathname);
+    
     if(fileContent === null) return res.end('not found');
     return res.end(fileContent);
-  }
-  catch (exception) {
+  } catch (exception) {
     console.log('exception found..', exception);
   }
-});
+}
 
-server.listen(PORT, () => {
-  console.log(`Server running at PORT ${PORT}/`);
-});
+http.createServer(onServer).listen(PORT, () => console.log(`PORT ${PORT}/`));
