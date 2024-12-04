@@ -5,7 +5,6 @@ const TAG_NAME = 'web-button';
 class Button extends BaseComponent {
   constructor() {
     super();
-    console.log('content: ', this.content);
   }
 
   connectedCallback() {

@@ -27,7 +27,7 @@ class BaseComponent extends HTMLElement {
       }
   
       if(props.children) {
-        appendChildren(element, props.children);
+        this.appendChildren(element, props.children);
       }
   
       if(props.style) {
@@ -38,6 +38,12 @@ class BaseComponent extends HTMLElement {
     }
     
     return element;
+  }
+
+  appendChildren(parent, children) {
+    children.forEach(child => {
+      parent.appendChild(child);
+    });
   }
 
   append(element) {
