@@ -1,18 +1,18 @@
+import BaseComponent from './base-component.js';
 
 const TAG_NAME = 'web-button';
 
-class Button extends HTMLElement {
+class Button extends BaseComponent {
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
+    console.log('content: ', this.content);
   }
 
   connectedCallback() {
-    this.shadowRoot.innerHTML = `
-      <button>
-        <slot></slot>
-      </button>
-    `;
+    this.append(this.createElement('a', {
+      class: 'btn btn-primary',
+      innerText: this.innerHTML
+    }));
   }
 }
 

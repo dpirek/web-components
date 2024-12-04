@@ -1,6 +1,6 @@
 # Web Components
 
-Sample web component based applicaton.
+Sample vanilla JavaScript web component based applicaton.
 
 ## Router
 
